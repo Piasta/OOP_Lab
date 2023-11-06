@@ -1,8 +1,5 @@
 package pl.wsb.OOP_Lab;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -12,31 +9,51 @@ import static org.junit.jupiter.api.Assertions.*;
 class ClientDataCreatorTest {
 
     private ClientDataCreator clientDataCreator;
+    private LocalDateTime currentDateTime;
     private String clientId;
-    private LocalDateTime currentDateTime = LocalDateTime.now();
-    private DateTimeFormatter formatterDTTM = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
 
-    @BeforeEach
+    @org.junit.jupiter.api.BeforeEach
     void setUp() {
-        clientDataCreator = new ClientDataCreator();
-        LocalDateTime currentDateTime = LocalDateTime.now();
-        DateTimeFormatter formatterDTTM = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
-        this.clientId = currentDateTime.format(formatterDTTM);
+        this.clientDataCreator = new ClientDataCreator();
+        this.currentDateTime = LocalDateTime.now();
+        this.clientId = clientDataCreator.setClientId(currentDateTime);
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
+    void createNewClient() {
+        assertEquals(clientId, clientDataCreator.createNewClient("Piotr", "Piasta"));
+    }
+
+    @org.junit.jupiter.api.Test
     void getClientFullName() {
-        clientDataCreator.createNewClient("piotr", "piasta");
-        assertEquals("Piotr Piasta", clientDataCreator.getClientFullName(clientId));
+        assertEquals("Piotr Piasta", clientDataCreator.createNewClient("piotr", "piasta"));
+        assertEquals("Piotr Piasta", clientDataCreator.createNewClient("piotr", "piasta"));
+        assertEquals("Piotr Piasta", clientDataCreator.createNewClient("pIOTR", "pIASTA"));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     void getClientCreationDate() {
-        clientDataCreator.createNewClient("piotr", "piasta");
-        assertEquals(LocalDate.from(currentDateTime), clientDataCreator.getClientCreationDate(clientId));
+        LocalDate localDate = LocalDate.from(currentDateTime);
+        LocalDate creationDate = clientDataCreator.setCreationDate(currentDateTime);
+        assertEquals(localDate, creationDate);
     }
 
-    @Test
-    void isPremiumClient() {
+    @org.junit.jupiter.api.Test
+    void isPremiumClientWhenNotPremium() {
+        assertFalse(clientDataCreator.isPremiumClient(clientId));
+    }
+
+    @org.junit.jupiter.api.Test
+    void isPremiumClientWhenIsPremium() {
+        clientDataCreator.activatePremiumAccount(clientId);
+        assertTrue(clientDataCreator.isPremiumClient(clientId));
+    }
+
+    @org.junit.jupiter.api.Test
+    void isPremiumClientWhenIdNotExist() {
+        String wrongClientId = clientId + "0";
+        assertThrows(ClientNotFoundException.class, () -> {
+            clientDataCreator.activatePremiumAccount(wrongClientId);
+        });
     }
 }
