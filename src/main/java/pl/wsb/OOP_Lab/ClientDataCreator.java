@@ -1,16 +1,22 @@
 package pl.wsb.OOP_Lab;
 
+import com.google.gson.annotations.Expose;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class ClientDataCreator implements Clients {
     private String fullName;
-    private final LocalDateTime currentDateTime = LocalDateTime.now();
-    private final DateTimeFormatter formatterDTTM = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+    private final transient LocalDateTime currentDateTime = LocalDateTime.now();
+    private final transient DateTimeFormatter formatterDTTM = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
     private String clientId;
     private LocalDate creationDate;
     private boolean isPremium;
+
+    public ClientDataCreator(String firstName, String lastName) {
+        createNewClient(firstName, lastName);
+    }
 
     @Override
     public String setClientId(LocalDateTime dateTime) {

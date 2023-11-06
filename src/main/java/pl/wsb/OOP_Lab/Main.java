@@ -1,8 +1,11 @@
 package pl.wsb.OOP_Lab;
 
+import com.google.gson.Gson;
+
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
-        ClientDataCreator clientDataCreator = new ClientDataCreator();
-        System.out.println(clientDataCreator.createNewClient("Piotr", "Piasta"));
+        ClientManager cm = new ClientManager();
     }
 }
