@@ -3,26 +3,36 @@ package pl.wsb.OOP_Lab;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Locale;
 
 public class ClientDataCreator implements Clients {
-    private String firstName;
-    private String lastName;
     private String fullName;
-    private LocalDateTime currentDateTime = LocalDateTime.now();
-    private DateTimeFormatter formatterDTTM = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+    private final LocalDateTime currentDateTime = LocalDateTime.now();
+    private final DateTimeFormatter formatterDTTM = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
     private String clientId;
     private LocalDate creationDate;
     private boolean isPremium;
 
     @Override
+    public String setClientId(LocalDateTime dateTime) {
+        this.clientId = dateTime.format(formatterDTTM);
+        return this.clientId;
+    }
+
+    @Override
+    public LocalDate setCreationDate(LocalDateTime dateTime) {
+        this.creationDate = LocalDate.from(dateTime);
+        return this.creationDate;
+    }
+
+    @Override
     public String createNewClient(String firstName, String lastName) {
-        this.firstName = firstName.substring(0, 1).toUpperCase() + firstName.substring(1).toLowerCase();
-        this.lastName = lastName.substring(0,1).toUpperCase() + lastName.substring(1).toLowerCase();
-        this.fullName = this.firstName + " " + this.lastName;
-        this.clientId = currentDateTime.format(formatterDTTM);
-        this.creationDate = LocalDate.from(currentDateTime);
-        return clientId;
+        firstName = firstName.substring(0, 1).toUpperCase() + firstName.substring(1).toLowerCase();
+        lastName = lastName.substring(0,1).toUpperCase() + lastName.substring(1).toLowerCase();
+        this.fullName = firstName + " " + lastName;
+
+        setClientId(currentDateTime);
+        setCreationDate(currentDateTime);
+        return this.clientId;
     }
 
     @Override
@@ -39,7 +49,7 @@ public class ClientDataCreator implements Clients {
         if(!this.clientId.equals(clientId)) {
             throw new ClientNotFoundException(clientId);
         }
-        return fullName;
+        return this.fullName;
     }
 
     @Override
@@ -47,7 +57,7 @@ public class ClientDataCreator implements Clients {
         if(!this.clientId.equals(clientId)) {
             throw new ClientNotFoundException(clientId);
         }
-        return creationDate;
+        return this.creationDate;
     }
 
     @Override
