@@ -1,10 +1,8 @@
 package pl.wsb.OOP_Lab;
 
-import com.google.gson.Gson;
-
 import java.util.Scanner;
 
-public class ClientManager implements ClientsManager {
+public class ClientManager extends JsonService implements ClientsManagerInterface {
 
     private String firstName;
     private String lastName;
@@ -21,9 +19,9 @@ public class ClientManager implements ClientsManager {
         if (choice == 1) {
             inputFirstName(input);
             inputLastName(input);
-            ClientDataCreator cdc = new ClientDataCreator(firstName, lastName);
-            String gson = new Gson().toJson(cdc);
-            System.out.println(gson);
+            ClientService clientCreator = new ClientService();
+            clientCreator.createNewClient(firstName, lastName);
+            objectToJson(clientCreator);
         } else {
             System.out.println("Invalid choice.");
         }
