@@ -25,15 +25,8 @@ public class JsonService {
         setFilePath(jsonPathClient);
         Gson gson = new Gson();
 
-        if(!Files.exists(getJsonPath())) {
-            new File(getJsonPath().toString()).mkdirs();
-            System.out.println("Json directory created.");
-        }
-
-        if(!Files.exists(jsonPathClient)) {
-            new File(jsonPathClient.toString()).mkdirs();
-            System.out.println("Client directory created.");
-        }
+        createDirIfNotExist(getJsonPath());
+        createDirIfNotExist(jsonPathClient);
 
         try (FileWriter writer = new FileWriter(getFilePath().toString())) {
             System.out.println(gson.toJson(clientObject));
@@ -41,6 +34,13 @@ public class JsonService {
             System.out.println("Client succesfully saved into: " + getFilePath());
         } catch (IOException e){
             throw new RuntimeException(e);
+        }
+    }
+
+    private void createDirIfNotExist(Path dirToCheck) {
+        if(!Files.exists(dirToCheck)) {
+            new File(dirToCheck.toString()).mkdirs();
+            System.out.println(dirToCheck + " - directory created.");
         }
     }
 
