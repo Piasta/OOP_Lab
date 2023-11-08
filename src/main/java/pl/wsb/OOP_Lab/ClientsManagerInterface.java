@@ -1,10 +1,8 @@
 package pl.wsb.OOP_Lab;
 
-import com.google.gson.Gson;
-
 import java.util.Scanner;
 
-public interface ClientsManager {
+public interface ClientsManagerInterface {
 
     /**
      * Get client first name from keyboard

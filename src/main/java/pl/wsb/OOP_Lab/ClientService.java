@@ -9,7 +9,7 @@ public class ClientService implements ClientsInterface {
     private final transient DateTimeFormatter formatterDTTM;
     private String fullName;
     private String clientId;
-    private LocalDate creationDate;
+    private String creationDate;
     private boolean isPremium;
 
     public ClientService() {
@@ -43,7 +43,7 @@ public class ClientService implements ClientsInterface {
     }
 
     @Override
-    public LocalDate getClientCreationDate(String clientId) {
+    public String getClientCreationDate(String clientId) {
         if(!getClientId().equals(clientId)) {
             throw new ClientNotFoundException(getClientId());
         }
@@ -89,12 +89,12 @@ public class ClientService implements ClientsInterface {
         this.clientId = localDateTime.format(getFormatterDTTM());
     }
 
-    public LocalDate getCreationDate() {
+    public String getCreationDate() {
         return creationDate;
     }
 
     public void setCreationDate(LocalDateTime localDateTime) {
-        this.creationDate = LocalDate.from(localDateTime);
+        this.creationDate = LocalDate.from(localDateTime).toString();
     }
 
     public boolean getIsPremium() {

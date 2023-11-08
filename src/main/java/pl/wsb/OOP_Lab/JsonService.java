@@ -2,18 +2,40 @@ package pl.wsb.OOP_Lab;
 
 import com.google.gson.Gson;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 
 public class JsonService {
+    private Path filePath;
+    private final Path projectPath;
+    private final Path jsonPath;
 
-    private String filePath;
+    public JsonService() {
+        this.projectPath = Paths.get("").toAbsolutePath();
+        this.jsonPath = getProjectPath().resolve("Json");
+    }
+
     public void objectToJson(ClientService clientObject) {
-        String filePath = "C:\\Users\\ppiasta\\Downloads\\OOP_Lab-master\\Clients.json";
-        setFilePath(filePath);
+        Path jsonPathClient = getJsonPath().resolve("Clients");
+        setFilePath(jsonPathClient);
         Gson gson = new Gson();
-        try (FileWriter writer = new FileWriter(filePath)) {
+
+        if(!Files.exists(getJsonPath())) {
+            new File(getJsonPath().toString()).mkdirs();
+            System.out.println("Json directory created.");
+        }
+
+        if(!Files.exists(jsonPathClient)) {
+            new File(jsonPathClient.toString()).mkdirs();
+            System.out.println("Client directory created.");
+        }
+
+        try (FileWriter writer = new FileWriter(getFilePath().toString())) {
             System.out.println(gson.toJson(clientObject));
             gson.toJson(clientObject, writer);
             System.out.println("Client succesfully saved into: " + getFilePath());
@@ -21,14 +43,26 @@ public class JsonService {
             throw new RuntimeException(e);
         }
     }
-    public void getDataFromJson(String dataForSearch, String dataSearched) {
 
-    }
-    public void setFilePath(String filePath) {
+    public void setFilePath(Path filePath) {
+        if(filePath.toString().toLowerCase().contains("json")){
+            if(filePath.toString().toLowerCase().contains("client")){
+                filePath = filePath.resolve("ClientsData.json");
+            }
+            if(filePath.toString().toLowerCase().contains("warehouse")){
+                filePath = filePath.resolve("WarehouseData.json");
+            }
+        }
         this.filePath = filePath;
     }
 
-    public String getFilePath() {
+    public Path getFilePath() {
         return this.filePath;
+    }
+    public Path getProjectPath() {
+        return projectPath;
+    }
+    public Path getJsonPath() {
+        return jsonPath;
     }
 }

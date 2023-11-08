@@ -40,9 +40,9 @@ class ClientServiceTest {
 
     @Test
     void getClientCreationDate() {
-        LocalDate localDate = LocalDate.from(currentDateTime);
+        String localDate = LocalDate.from(currentDateTime).toString();
         clientService.setCreationDate(currentDateTime);
-        LocalDate creationDate = clientService.getCreationDate();
+        String creationDate = clientService.getCreationDate();
         assertEquals(localDate, creationDate);
     }
 

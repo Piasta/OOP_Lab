@@ -34,6 +34,8 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.0.0</version>
+                <executions>
+                </executions>
                 <configuration>
                     <mainClass>pl.wsb.OOP_Lab.Main</mainClass>
                 </configuration>

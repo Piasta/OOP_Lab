@@ -4,12 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="88377ba8-8814-4acd-b1e5-13fca2518471" name="Changes" comment="">
+    <list default="true" id="88377ba8-8814-4acd-b1e5-13fca2518471" name="Changes" comment="insert only one client data">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/wsb/OOP_Lab/ClientDataCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/wsb/OOP_Lab/ClientDataCreator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/wsb/OOP_Lab/ClientService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/wsb/OOP_Lab/ClientService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/wsb/OOP_Lab/Clients.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/wsb/OOP_Lab/ClientsInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/wsb/OOP_Lab/ClientsManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/wsb/OOP_Lab/ClientsManagerInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/wsb/OOP_Lab/JsonService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/wsb/OOP_Lab/JsonService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/pl/wsb/OOP_Lab/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/wsb/OOP_Lab/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/pl/wsb/OOP_Lab/ClientDataCreatorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/pl/wsb/OOP_Lab/ClientDataCreatorTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/pl/wsb/OOP_Lab/ClientServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/pl/wsb/OOP_Lab/ClientServiceTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,12 +31,12 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "Piasta"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Piasta&quot;
   }
-}]]></component>
+}</component>
   <component name="GithubPullRequestsUISettings">
     <option name="selectedUrlAndAccountId">
       <UrlAndAccount>
@@ -53,24 +56,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.repository.indices&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
@@ -82,8 +85,9 @@
       <recent name="pl.wsb.OOP_Lab" />
     </key>
   </component>
-  <component name="RunManager">
-    <configuration name="ClientDataCreatorTest.createNewClient" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Application.Main">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="pl.wsb.OOP_Lab.Main" />
       <module name="OOP_Lab" />
       <extension name="coverage">
         <pattern>
@@ -91,10 +95,6 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="pl.wsb.OOP_Lab" />
-      <option name="MAIN_CLASS_NAME" value="pl.wsb.OOP_Lab.ClientDataCreatorTest" />
-      <option name="METHOD_NAME" value="createNewClient" />
-      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -165,11 +165,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Main" />
         <item itemvalue="JUnit.ClientDataCreatorTest.isPremiumClientWhenIdNotExist" />
         <item itemvalue="JUnit.ClientDataCreatorTest.isPremiumClientWhenIsPremium" />
         <item itemvalue="JUnit.ClientDataCreatorTest.isPremiumClientWhenNotPremium" />
         <item itemvalue="JUnit.ClientDataCreatorTest.getClientCreationDate" />
-        <item itemvalue="JUnit.ClientDataCreatorTest.createNewClient" />
       </list>
     </recent_temporary>
   </component>
@@ -183,10 +183,25 @@
       <updated>1699201630524</updated>
       <workItem from="1699201631573" duration="3872000" />
       <workItem from="1699298726138" duration="11944000" />
+      <workItem from="1699472990170" duration="3391000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="insert only one client data" />
+    <option name="LAST_COMMIT_MESSAGE" value="insert only one client data" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.RuntimeException" package="java.lang" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

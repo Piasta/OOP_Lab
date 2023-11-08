@@ -1,21 +1,6 @@
 package pl.wsb.OOP_Lab;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
-public interface Clients {
-
-    /**
-     * Sets and store a new clientId from date and time.
-     * @param dateTime Actual date and time.
-     */
-    String setClientId(LocalDateTime dateTime);
-
-    /**
-     * Sets date of Client creation.
-     * @param dateTime Actual date and time.
-     * */
-    LocalDate setCreationDate(LocalDateTime dateTime);
+public interface ClientsInterface {
 
     /**
      * Creates a new client and stores their personal information.
@@ -45,7 +30,7 @@ public interface Clients {
      * @return LocalDate when the client was created.
      * @throws ClientNotFoundException Thrown when the client doesn't exist.
      */
-    LocalDate getClientCreationDate(String clientId);
+    String getClientCreationDate(String clientId);
 
     boolean isPremiumClient(String clientId);
 
