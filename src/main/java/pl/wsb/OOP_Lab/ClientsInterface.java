@@ -1,5 +1,7 @@
 package pl.wsb.OOP_Lab;
 
+import java.time.LocalDate;
+
 public interface ClientsInterface {
 
     /**
@@ -30,7 +32,7 @@ public interface ClientsInterface {
      * @return LocalDate when the client was created.
      * @throws ClientNotFoundException Thrown when the client doesn't exist.
      */
-    String getClientCreationDate(String clientId);
+    LocalDate getClientCreationDate(String clientId);
 
     boolean isPremiumClient(String clientId);
 
