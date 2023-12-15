@@ -25,8 +25,8 @@ public class JsonService {
         setFilePath(jsonPathClient);
         Gson gson = new Gson();
 
-        createDirIfNotExist(getJsonPath());
-        createDirIfNotExist(jsonPathClient);
+        CreateDirIfNotExist(getJsonPath());
+        CreateDirIfNotExist(jsonPathClient);
 
         try (FileWriter writer = new FileWriter(getFilePath().toString())) {
             System.out.println(gson.toJson(clientObject));
@@ -37,7 +37,7 @@ public class JsonService {
         }
     }
 
-    private void createDirIfNotExist(Path dirToCheck) {
+    private void CreateDirIfNotExist(Path dirToCheck) {
         if(!Files.exists(dirToCheck)) {
             new File(dirToCheck.toString()).mkdirs();
             System.out.println(dirToCheck + " - directory created.");
@@ -45,12 +45,16 @@ public class JsonService {
     }
 
     public void setFilePath(Path filePath) {
-        if(filePath.toString().toLowerCase().contains("json")){
-            if(filePath.toString().toLowerCase().contains("client")){
-                filePath = filePath.resolve("ClientsData.json");
+        if(filePath.toString().toLowerCase().contains("json")) {
+            if(filePath.toString().toLowerCase().contains("client")) {
+                if(!filePath.toString().toLowerCase().contains(".json")) {
+                    filePath = filePath.resolve("ClientsData.json");
+                }
             }
-            if(filePath.toString().toLowerCase().contains("warehouse")){
-                filePath = filePath.resolve("WarehouseData.json");
+            if(filePath.toString().toLowerCase().contains("warehouse")) {
+                if(!filePath.toString().toLowerCase().contains(".json")){
+                    filePath = filePath.resolve("WarehouseData.json");
+                }
             }
         }
         this.filePath = filePath;
