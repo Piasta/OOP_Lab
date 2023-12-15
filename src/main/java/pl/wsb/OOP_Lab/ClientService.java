@@ -10,13 +10,13 @@ public class ClientService implements ClientsInterface {
     private String lastName;
     private boolean isPremium;
     private String clientId;
-    private List<Client> clientsList = new ArrayList<>();
+    protected List<Client> clientsList = new ArrayList<>();
 
     public void clientServiceRun(){
         Scanner input = new Scanner(System.in);
         String userChoice;
-
-        do {
+        boolean exitService = false;
+        while (!exitService) {
             displayMainMenu();
             userChoice = input.next();
 
@@ -43,12 +43,13 @@ public class ClientService implements ClientsInterface {
                     getNumberOfPremiumClients();
                     break;
                 case "0":
-                    System.exit(0);
+                    exitService = true;
+                    break;
                 default:
                     System.out.println("Invalid choice. Try again.");
                     break;
             }
-        } while (true);
+        }
     }
 
     @Override
@@ -144,8 +145,8 @@ public class ClientService implements ClientsInterface {
                 for (int i = 0; i < clientsList.size(); i++){
                     displayClient(i);
                 }
-                int internalUserChoice = Integer.parseInt(input.next());
                 System.out.println("Select index of client to display full name.");
+                int internalUserChoice = Integer.parseInt(input.next());
                 Client client = clientsList.get(internalUserChoice);
                 getClientFullName(client.getClientId());
             } catch (IndexOutOfBoundsException ex) {
@@ -175,8 +176,8 @@ public class ClientService implements ClientsInterface {
                 for (int i = 0; i < clientsList.size(); i++){
                     displayClient(i);
                 }
-                int internalUserChoice = Integer.parseInt(input.next());
                 System.out.println("Select index of client to display full name.");
+                int internalUserChoice = Integer.parseInt(input.next());
                 Client client = clientsList.get(internalUserChoice);
                 getClientCreationDate(client.getClientId());
             } catch (IndexOutOfBoundsException ex) {
@@ -207,8 +208,8 @@ public class ClientService implements ClientsInterface {
                 for (int i = 0; i < clientsList.size(); i++){
                     displayClient(i);
                 }
-                int internalUserChoice = Integer.parseInt(input.next());
                 System.out.println("Select index of client to display full name.");
+                int internalUserChoice = Integer.parseInt(input.next());
                 Client client = clientsList.get(internalUserChoice);
                 isPremiumClient(client.getClientId());
             } catch (IndexOutOfBoundsException ex) {
@@ -249,7 +250,7 @@ public class ClientService implements ClientsInterface {
         System.out.println("6 - get quantity of all clients.");
         System.out.println("7 - get quantity of premium clients.");
         System.out.println();
-        System.out.println("0 - Exit.");
+        System.out.println("0 - back.");
     }
     public void inputFirstName(Scanner keyboard) {
         System.out.print("Enter client first name: ");
@@ -259,7 +260,7 @@ public class ClientService implements ClientsInterface {
         System.out.print("Enter client last name: ");
         this.lastName = keyboard.next();
     }
-    private Client findClientById(String clientId) {
+    public Client findClientById(String clientId) {
         for (Client client : clientsList){
             if (client.getClientId().equals(clientId)) {
                 return client;
@@ -267,7 +268,7 @@ public class ClientService implements ClientsInterface {
         }
         return null;
     }
-    private void displayClient(int index){
+    protected void displayClient(int index){
         Client client = clientsList.get(index);
         System.out.println("Index: " + index);
         System.out.println("First Name: " + client.getFirstName());

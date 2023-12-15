@@ -37,6 +37,10 @@ class ClientServiceTest {
         cs.activatePremiumAccount(clientId);
         assertTrue(cs.isPremiumClient(clientId));
     }
+    @Test
+    void activatePremiumAccount_ClientNotFoundException() {
+        assertThrows(ClientNotFoundException.class, () -> cs.activatePremiumAccount("123"));
+    }
 
     @Test
     void getClientFullName() {
@@ -48,11 +52,19 @@ class ClientServiceTest {
         clientId = cs.createNewClient("pIOTR", "pIASTA");
         assertEquals("Piotr Piasta", cs.getClientFullName(clientId));
     }
+    @Test
+    void getClientFullName_ClientNotFoundException() {
+        assertThrows(ClientNotFoundException.class, () -> cs.activatePremiumAccount("123"));
+    }
 
     @Test
     void getClientCreationDate() {
         LocalDate creationDate = cs.getClientCreationDate(clientId);
         assertEquals(LocalDate.now(), creationDate);
+    }
+    @Test
+    void getClientCreationDate_ClientNotFoundException() {
+        assertThrows(ClientNotFoundException.class, () -> cs.activatePremiumAccount("123"));
     }
 
     @Test
@@ -60,6 +72,10 @@ class ClientServiceTest {
         assertFalse(cs.isPremiumClient(clientId));
         cs.activatePremiumAccount(this.clientId);
         assertTrue(cs.isPremiumClient(this.clientId));
+    }
+    @Test
+    void isPremiumClient_ClientNotFoundException() {
+        assertThrows(ClientNotFoundException.class, () -> cs.activatePremiumAccount("123"));
     }
 
     @Test
@@ -70,7 +86,6 @@ class ClientServiceTest {
         cs.createNewClient(firstName, lastName);
         assertEquals(3, cs.getNumberOfClients());
     }
-
     @Test
     void getNumberOfPremiumClients() {
         cs.getNumberOfClients();
