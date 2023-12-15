@@ -1,10 +1,6 @@
 package pl.wsb.OOP_Lab;
 
-import java.lang.reflect.Array;
-import java.nio.channels.ScatteringByteChannel;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -16,7 +12,7 @@ public class ClientService implements ClientsInterface {
     private String clientId;
     private List<Client> clientsList = new ArrayList<>();
 
-    public ClientService() {
+    public void clientServiceRun(){
         Scanner input = new Scanner(System.in);
         String userChoice;
 
@@ -32,10 +28,19 @@ public class ClientService implements ClientsInterface {
                     handleActivatePremiumAccount(input);
                     break;
                 case "3":
-                    displayClientFullNames();
+                    handleGetClientFullName(input);
                     break;
                 case "4":
                     handleGetClientCreationDate(input);
+                    break;
+                case "5":
+                    handleIsPremiumClient(input);
+                    break;
+                case "6":
+                    getNumberOfClients();
+                    break;
+                case "7":
+                    getNumberOfPremiumClients();
                     break;
                 case "0":
                     System.exit(0);
@@ -46,37 +51,6 @@ public class ClientService implements ClientsInterface {
         } while (true);
     }
 
-    private void displayMainMenu() {
-        System.out.println("#############################");
-        System.out.println("Select what you want to do.");
-        System.out.println("1 - create new client.");
-        System.out.println("2 - activate existed client to premium.");
-        System.out.println("3 - get full name of client.");
-        System.out.println("4 - get client creation date.");
-        System.out.println();
-        System.out.println("0 - Exit.");
-    }
-    private Client findClientById(String clientId) {
-        for (Client client : clientsList){
-            if (client.getClientId().equals(clientId)) {
-                return client;
-            }
-        }
-        return null;
-    }
-
-    public String inputFirstName(Scanner keyboard) {
-        System.out.print("Enter client first name: ");
-        this.firstName = keyboard.next();
-        return firstName;
-    }
-
-    public String inputLastName(Scanner keyboard) {
-        System.out.print("Enter client last name: ");
-        this.lastName = keyboard.next();
-        return lastName;
-    }
-
     @Override
     public String createNewClient(String firstName, String lastName) {
         Client client = new Client(firstName, lastName);
@@ -85,7 +59,6 @@ public class ClientService implements ClientsInterface {
         System.out.println("Client with ID: " + clientId + " created successfully.");
         return client.getClientId();
     }
-
     private void handleCreateNewClient(Scanner input) {
         boolean validChoice = false;
 
@@ -114,6 +87,7 @@ public class ClientService implements ClientsInterface {
         } while (!validChoice);
     }
 
+
     @Override
     public String activatePremiumAccount(String clientId) {
         Client client = findClientById(clientId);
@@ -126,52 +100,121 @@ public class ClientService implements ClientsInterface {
             throw new ClientNotFoundException(clientId);
         }
     }
-
     private void handleActivatePremiumAccount(Scanner input){
         boolean isAnyNonPremium = false;
         for (int i = 0; i < clientsList.size(); i++) {
             Client client = clientsList.get(i);
             if (!client.isPremium()) {
                 isAnyNonPremium = true;
-                System.out.println("Index: " + i);
-                System.out.println("First Name: " + client.getFirstName());
-                System.out.println("Last Name: " + client.getLastName());
-                System.out.println("Client ID: " + client.getClientId());
-                System.out.println("------------");
+                displayClient(i);
             }
         }
-        if (isAnyNonPremium == true) {
+        if (isAnyNonPremium) {
             try {
                 System.out.println("Select index of account which you want to set as premium.");
-                String internalUserChoice = input.next();
-                Client client = clientsList.get(Integer.parseInt(internalUserChoice));
-                this.clientId = client.getClientId();
-                activatePremiumAccount(this.clientId);
+                System.out.println("0 - if you want to exit.");
+                int internalUserChoice = Integer.parseInt(input.next());
+                if (!(internalUserChoice == 0)) {
+                    Client client = clientsList.get(internalUserChoice);
+                    this.clientId = client.getClientId();
+                    activatePremiumAccount(this.clientId);
+                }
             } catch (IndexOutOfBoundsException ex) {
                 System.out.println("Invalid choice. Try again.");
             }
-
         } else {
             System.out.println("There is no accounts without premium status.");
         }
     }
 
+
     @Override
     public String getClientFullName(String clientId) {
         Client client = findClientById(clientId);
-        if(!client.getClientId().equals(clientId)) {
-            throw new ClientNotFoundException(client.getClientId());
+        if(client == null) {
+            throw new ClientNotFoundException(clientId);
         }
-        System.out.println(client.getFullName());
+        String fullName = client.getFullName();
+        System.out.println("The name of Client ID " + clientId + " is: " + fullName);
         return client.getFullName();
     }
+    private void handleGetClientFullName(Scanner input){
+        if (!clientsList.isEmpty()) {
+            try{
+                for (int i = 0; i < clientsList.size(); i++){
+                    displayClient(i);
+                }
+                int internalUserChoice = Integer.parseInt(input.next());
+                System.out.println("Select index of client to display full name.");
+                Client client = clientsList.get(internalUserChoice);
+                getClientFullName(client.getClientId());
+            } catch (IndexOutOfBoundsException ex) {
+                System.out.println("Invalid choice. Try again.");
+            } catch (ClientNotFoundException ex) {
+                System.out.println("Client not found.");
+            }
+        } else {
+            System.out.println("There is no clients to display.");
+        }
+    }
 
-    private void displayClientFullNames(){
-        if (clientsList.size() > 0) {
-            for (int i = 0; i < clientsList.size(); i++) {
-                Client client = clientsList.get(i);
-                this.clientId = client.getClientId();
-                getClientFullName(this.clientId);
+
+    @Override
+    public LocalDate getClientCreationDate(String clientId) {
+        Client client = findClientById(clientId);
+        if(client == null) {
+            throw new ClientNotFoundException(clientId);
+        }
+        LocalDate creationDate = client.getCreationDate();
+        System.out.println("Client ID: " + clientId + " was created on: " + creationDate);
+        return client.getCreationDate();
+    }
+    private void handleGetClientCreationDate(Scanner input){
+        if (!clientsList.isEmpty()) {
+            try{
+                for (int i = 0; i < clientsList.size(); i++){
+                    displayClient(i);
+                }
+                int internalUserChoice = Integer.parseInt(input.next());
+                System.out.println("Select index of client to display full name.");
+                Client client = clientsList.get(internalUserChoice);
+                getClientCreationDate(client.getClientId());
+            } catch (IndexOutOfBoundsException ex) {
+                System.out.println("Invalid choice. Try again.");
+            } catch (ClientNotFoundException ex) {
+                System.out.println("Client not found.");
+            }
+        } else {
+            System.out.println("There is no clients to display.");
+        }
+    }
+
+
+    @Override
+    public boolean isPremiumClient(String clientId) {
+        Client client = findClientById(clientId);
+        if (client == null){
+            throw new ClientNotFoundException(clientId);
+        }
+        this.isPremium = client.getIsPremium();
+        if (isPremium) System.out.println("Client ID: " + clientId + " |IS PREMIUM");
+        if (!isPremium) System.out.println("Client ID: " + clientId + " |IS NOT PREMIUM");
+        return this.isPremium;
+    }
+    private void handleIsPremiumClient(Scanner input){
+        if (!clientsList.isEmpty()) {
+            try{
+                for (int i = 0; i < clientsList.size(); i++){
+                    displayClient(i);
+                }
+                int internalUserChoice = Integer.parseInt(input.next());
+                System.out.println("Select index of client to display full name.");
+                Client client = clientsList.get(internalUserChoice);
+                isPremiumClient(client.getClientId());
+            } catch (IndexOutOfBoundsException ex) {
+                System.out.println("Invalid choice. Try again.");
+            } catch (ClientNotFoundException ex) {
+                System.out.println("Client not found.");
             }
         } else {
             System.out.println("There is no clients to display.");
@@ -179,51 +222,57 @@ public class ClientService implements ClientsInterface {
     }
 
     @Override
-    public LocalDate getClientCreationDate(String clientId) {
-        Client client = findClientById(clientId);
-        if(!client.getClientId().equals(clientId)) {
-            throw new ClientNotFoundException(client.getClientId());
-        }
-        System.out.println(client.getCreationDate());
-        return client.getCreationDate();
-    }
-
-    private void handleGetClientCreationDate(Scanner input){
-        if (clientsList.size() > 0) {
-            try{
-                for (int i = 0; i < clientsList.size(); i++) {
-                    Client client = clientsList.get(i);
-
-                    System.out.println("Index: " + i);
-                    System.out.println("First Name: " + client.getFirstName());
-                    System.out.println("Last Name: " + client.getLastName());
-                    System.out.println("Client ID: " + client.getClientId());
-                    System.out.println("------------");
-                }
-                String internalUserChoice = input.next();
-                System.out.println("Select index of client to display date.");
-                Client client = clientsList.get(Integer.parseInt(internalUserChoice));
-                this.clientId = client.getClientId();
-                getClientCreationDate(this.clientId);
-            } catch (IndexOutOfBoundsException ex){
-                System.out.println("Invalid choice. Try again.");
-            }
-        }
-        else {
-            System.out.println("There is no clients to display.");
-        }
-    }
-
-    @Override
-    public boolean isPremiumClient(String clientId) { return false; }
-
-    @Override
     public int getNumberOfClients() {
-        return 0;
+        int clientsQty;
+        clientsQty = clientsList.size();
+        System.out.println(clientsQty + " clients exist.");
+        return clientsQty;
     }
-
     @Override
     public int getNumberOfPremiumClients() {
-        return 0;
+        int premiumClientsQty = 0;
+        for (Client client : clientsList) {
+            if (client.getIsPremium()) premiumClientsQty ++;
+        }
+        System.out.println(premiumClientsQty + " premium clients exist.");
+        return premiumClientsQty;
+    }
+
+    private void displayMainMenu() {
+        System.out.println("#############################");
+        System.out.println("Select what you want to do.");
+        System.out.println("1 - create new client.");
+        System.out.println("2 - activate existed client to premium.");
+        System.out.println("3 - get full name of client.");
+        System.out.println("4 - get client creation date.");
+        System.out.println("5 - get info about premium status.");
+        System.out.println("6 - get quantity of all clients.");
+        System.out.println("7 - get quantity of premium clients.");
+        System.out.println();
+        System.out.println("0 - Exit.");
+    }
+    public void inputFirstName(Scanner keyboard) {
+        System.out.print("Enter client first name: ");
+        this.firstName = keyboard.next();
+    }
+    public void inputLastName(Scanner keyboard) {
+        System.out.print("Enter client last name: ");
+        this.lastName = keyboard.next();
+    }
+    private Client findClientById(String clientId) {
+        for (Client client : clientsList){
+            if (client.getClientId().equals(clientId)) {
+                return client;
+            }
+        }
+        return null;
+    }
+    private void displayClient(int index){
+        Client client = clientsList.get(index);
+        System.out.println("Index: " + index);
+        System.out.println("First Name: " + client.getFirstName());
+        System.out.println("Last Name: " + client.getLastName());
+        System.out.println("Client ID: " + client.getClientId());
+        System.out.println("------------");
     }
 }

@@ -1,65 +1,84 @@
-//package pl.wsb.OOP_Lab;
-//
-//import org.junit.jupiter.api.BeforeEach;
-//import org.junit.jupiter.api.Test;
-//
-//import java.time.LocalDate;
-//import java.time.LocalDateTime;
-//
-//import static org.junit.jupiter.api.Assertions.*;
-//
-//class ClientServiceTest {
-//    private ClientService clientService;
-//    private LocalDateTime currentDateTime;
-//    private String clientId;
-//
-//    @BeforeEach
-//    void setUp() {
-//        this.clientService = new ClientService();
-//        this.currentDateTime = LocalDateTime.now();
-//        clientService.setClientId(currentDateTime);
-//        this.clientId = clientService.getClientId();
-//    }
-//
-//    @Test
-//    void createNewClient() {
-//        assertEquals(clientId, clientService.createNewClient("Piotr", "Piasta"));
-//    }
-//
-//    @Test
-//    void getClientFullName() {
-//        clientService.createNewClient("Piotr", "Piasta");
-//        assertEquals("Piotr Piasta", clientService.getClientFullName(clientId));
-//
-//        clientService.createNewClient("piotr", "piasta");
-//        assertEquals("Piotr Piasta", clientService.getClientFullName(clientId));
-//
-//        clientService.createNewClient("pIOTR", "pIASTA");
-//        assertEquals("Piotr Piasta", clientService.getClientFullName(clientId));
-//    }
-//
-//    @Test
-//    void getClientCreationDate() {
-//        String localDate = LocalDate.from(currentDateTime).toString();
-//        clientService.setCreationDate(currentDateTime);
-//        String creationDate = clientService.getCreationDate();
-//        assertEquals(localDate, creationDate);
-//    }
-//
-//    @Test
-//    void isPremiumClientWhenNotPremium() {
-//        assertFalse(clientService.isPremiumClient(clientId));
-//    }
-//
-//    @Test
-//    void isPremiumClientWhenIsPremium() {
-//        clientService.activatePremiumAccount(clientId);
-//        assertTrue(clientService.isPremiumClient(clientId));
-//    }
-//
-//    @Test
-//    void isPremiumClientWhenIdNotExist() {
-//        String wrongClientId = clientId + "0";
-//        assertThrows(ClientNotFoundException.class, () -> clientService.activatePremiumAccount(wrongClientId));
-//    }
-//}
+package pl.wsb.OOP_Lab;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.time.LocalDate;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class ClientServiceTest {
+    ClientService cs;
+    String firstName;
+    String lastName;
+    String clientId;
+
+    @BeforeEach
+    void setUp() {
+        this.cs = new ClientService();
+        this.firstName = "Piotr";
+        this.lastName = "Piasta";
+        this.clientId = cs.createNewClient(firstName, lastName);
+    }
+
+    @Test
+    void createNewClient() {
+        assertNotNull(clientId);
+        assertEquals(1, cs.getNumberOfClients());
+        cs.createNewClient(firstName, lastName);
+        assertEquals(2, cs.getNumberOfClients());
+        cs.createNewClient(firstName, lastName);
+        assertEquals(3, cs.getNumberOfClients());
+    }
+
+    @Test
+    void activatePremiumAccount() {
+        assertFalse(cs.isPremiumClient(clientId));
+        cs.activatePremiumAccount(clientId);
+        assertTrue(cs.isPremiumClient(clientId));
+    }
+
+    @Test
+    void getClientFullName() {
+        assertEquals("Piotr Piasta", cs.getClientFullName(clientId));
+
+        clientId = cs.createNewClient("piotr", "piasta");
+        assertEquals("Piotr Piasta", cs.getClientFullName(clientId));
+
+        clientId = cs.createNewClient("pIOTR", "pIASTA");
+        assertEquals("Piotr Piasta", cs.getClientFullName(clientId));
+    }
+
+    @Test
+    void getClientCreationDate() {
+        LocalDate creationDate = cs.getClientCreationDate(clientId);
+        assertEquals(LocalDate.now(), creationDate);
+    }
+
+    @Test
+    void isPremiumClient() {
+        assertFalse(cs.isPremiumClient(clientId));
+        cs.activatePremiumAccount(this.clientId);
+        assertTrue(cs.isPremiumClient(this.clientId));
+    }
+
+    @Test
+    void getNumberOfClients() {
+        assertEquals(1, cs.getNumberOfClients());
+        cs.createNewClient(firstName, lastName);
+        assertEquals(2, cs.getNumberOfClients());
+        cs.createNewClient(firstName, lastName);
+        assertEquals(3, cs.getNumberOfClients());
+    }
+
+    @Test
+    void getNumberOfPremiumClients() {
+        cs.getNumberOfClients();
+        int qtyOfPremium = cs.getNumberOfPremiumClients();
+        assertEquals(0, qtyOfPremium);
+        cs.activatePremiumAccount(clientId);
+        cs.getNumberOfClients();
+        qtyOfPremium = cs.getNumberOfPremiumClients();
+        assertEquals(1, qtyOfPremium);
+    }
+}
