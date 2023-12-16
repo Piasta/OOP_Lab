@@ -113,15 +113,23 @@ public class ClientService implements ClientsInterface {
         if (isAnyNonPremium) {
             try {
                 System.out.println("Select index of account which you want to set as premium.");
-                System.out.println("0 - if you want to exit.");
-                int internalUserChoice = Integer.parseInt(input.next());
-                if (!(internalUserChoice == 0)) {
+                System.out.println("x - if you want to exit.");
+                String inputForExit = input.next();
+                int internalUserChoice;
+                if (inputForExit.equals("x")) {
+                    internalUserChoice = -1;
+                } else {
+                    internalUserChoice = Integer.parseInt(inputForExit);
+                }
+                if (!(internalUserChoice == -1)) {
                     Client client = clientsList.get(internalUserChoice);
                     this.clientId = client.getClientId();
                     activatePremiumAccount(this.clientId);
                 }
             } catch (IndexOutOfBoundsException ex) {
                 System.out.println("Invalid choice. Try again.");
+            } catch (NumberFormatException ex) {
+                System.out.println("Value is not int type. Try again.");
             }
         } else {
             System.out.println("There is no accounts without premium status.");
@@ -153,6 +161,8 @@ public class ClientService implements ClientsInterface {
                 System.out.println("Invalid choice. Try again.");
             } catch (ClientNotFoundException ex) {
                 System.out.println("Client not found.");
+            } catch (NumberFormatException ex) {
+                System.out.println("Value is not int type. Try again.");
             }
         } else {
             System.out.println("There is no clients to display.");
@@ -184,6 +194,8 @@ public class ClientService implements ClientsInterface {
                 System.out.println("Invalid choice. Try again.");
             } catch (ClientNotFoundException ex) {
                 System.out.println("Client not found.");
+            } catch (NumberFormatException ex) {
+                System.out.println("Value is not int type. Try again.");
             }
         } else {
             System.out.println("There is no clients to display.");
@@ -216,6 +228,8 @@ public class ClientService implements ClientsInterface {
                 System.out.println("Invalid choice. Try again.");
             } catch (ClientNotFoundException ex) {
                 System.out.println("Client not found.");
+            } catch (NumberFormatException ex) {
+                System.out.println("Value is not int type. Try again.");
             }
         } else {
             System.out.println("There is no clients to display.");
